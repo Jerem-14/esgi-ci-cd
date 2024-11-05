@@ -6,7 +6,5 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          sudo apt-get update
-          sudo apt-get install --yes cowsay
-      - run: cat README.md | cowsay # Affiche le contenu du fichier `README.md` à la base du dépôt
+      - run: npm install
+      - run: npm run lint
