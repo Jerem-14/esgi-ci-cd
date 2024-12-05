@@ -1,13 +1,14 @@
+# bonjour.yml
 name: Bonjour
 on:
   - push
 jobs:
   dire_bonjour:
     runs-on: ubuntu-22.04
+    env:
+      IMAGE_NAME: "mynode"
     steps:
-      - uses: actions/setup-node@v4
-      - uses: actions/checkout@v4
-        with:
-          node-version: 23
-      - run: npm clean-install
-      - run: npm run lint
+      - uses: actions/checkout@v4 # Récupère le contenu du dépôt correspondant au commit du workflow en cours
+      - run: docker image build --tag="${IMAGE_NAME}" ./
+      # Modification de la commande run pour inclure le montage du volume et le workdir
+      - run: docker container run -v "$(pwd)":"$(pwd)" --workdir="$(pwd)" "${IMAGE_NAME}" npm run lint
